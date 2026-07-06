@@ -1,13 +1,13 @@
 -- 1. Create a safe pcall so the script never crashes
 local success, err = pcall(function()
     if setclipboard then
-        setclipboard("https://sub2unlock.me/6LIOt0P")
+        setclipboard("https://sub2unlock.me/DGMa4yk")
     elseif toclipboard then
-        toclipboard("https://sub2unlock.me/6LIOt0P")
+        toclipboard("https://sub2unlock.me/DGMa4yk")
     elseif set_clipboard then
-        set_clipboard("https://sub2unlock.me/6LIOt0P")
+        set_clipboard("https://sub2unlock.me/DGMa4yk")
     else
-        setclipboard("https://sub2unlock.me/6LIOt0P")
+        setclipboard("https://sub2unlock.me/DGMa4yk")
     end
 end)
 
