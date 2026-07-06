@@ -1,87 +1,20 @@
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local playerGui = player:WaitForChild("PlayerGui")
-
--- 1. Create Main ScreenGui
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "MiniScriptHub"
-ScreenGui.ResetOnSpawn = false
-ScreenGui.Parent = playerGui
-
--- 2. Create the Small Grey GUI Frame
-local MainFrame = Instance.new("Frame")
-MainFrame.Name = "MainFrame"
-MainFrame.Size = UDim2.new(0, 260, 0, 130)
-MainFrame.Position = UDim2.new(0.5, -130, 0.5, -65)
-MainFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 42) -- Dark grey
-MainFrame.BorderSizePixel = 0
-MainFrame.Active = true
-MainFrame.Parent = ScreenGui
-
-local FrameCorner = Instance.new("UICorner")
-FrameCorner.CornerRadius = UDim.new(0, 10)
-FrameCorner.Parent = MainFrame
-
--- 3. Create the Button
-local ActionButton = Instance.new("TextButton")
-ActionButton.Name = "ActionButton"
-ActionButton.Size = UDim2.new(0, 210, 0, 40)
-ActionButton.Position = UDim2.new(0.5, -105, 0.35, -20)
-ActionButton.BackgroundColor3 = Color3.fromRGB(65, 65, 68) -- Lighter grey
-ActionButton.Text = "Click me for Script"
-ActionButton.TextColor3 = Color3.fromRGB(240, 240, 245)
-ActionButton.Font = Enum.Font.GothamBold
-ActionButton.TextSize = 14
-ActionButton.BorderSizePixel = 0
-ActionButton.Parent = MainFrame
-
-local ButtonCorner = Instance.new("UICorner")
-ButtonCorner.CornerRadius = UDim.new(0, 6)
-ButtonCorner.Parent = ActionButton
-
--- 4. Create the Bio Label
-local BioLabel = Instance.new("TextLabel")
-BioLabel.Name = "BioLabel"
-BioLabel.Size = UDim2.new(0, 240, 0, 20)
-BioLabel.Position = UDim2.new(0.5, -120, 0.7, 0)
-BioLabel.BackgroundTransparency = 1
-BioLabel.Text = "paste the text in your browser"
-BioLabel.TextColor3 = Color3.fromRGB(170, 170, 175)
-BioLabel.Font = Enum.Font.GothamItalic
-BioLabel.TextSize = 11
-BioLabel.Parent = MainFrame
-
--- 5. Force-Executed Safe Clipboard Logic
-ActionButton.MouseButton1Click:Connect(function()
-    -- Force the text to change instantly so you know the tap registered
-    ActionButton.Text = "Testing Copy..."
-    ActionButton.BackgroundColor3 = Color3.fromRGB(90, 90, 95)
-
-    -- Try copying using a pcall block so the executor doesn't crash the script
-    local success, err = pcall(function()
-        if setclipboard then
-            setclipboard("https://sub2unlock.me/6LIOt0P")
-        elseif toclipboard then
-            toclipboard("https://sub2unlock.me/6LIOt0P")
-        elseif set_clipboard then
-            set_clipboard("https://sub2unlock.me/6LIOt0P")
-        else
-            -- If the executor has a completely custom naming convention, force a default call
-            setclipboard("https://sub2unlock.me/6LIOt0P")
-        end
-    end)
-
-    -- Show results based on whether the executor accepted the command
-    if success then
-        ActionButton.Text = "Copied URL!"
+-- 1. Create a safe pcall so the script never crashes
+local success, err = pcall(function()
+    if setclipboard then
+        setclipboard("https://sub2unlock.me/6LIOt0P")
+    elseif toclipboard then
+        toclipboard("https://sub2unlock.me/6LIOt0P")
+    elseif set_clipboard then
+        set_clipboard("https://sub2unlock.me/6LIOt0P")
     else
-        ActionButton.Text = "Copy Error"
-        warn("Clipboard crash bypassed: " .. tostring(err))
+        setclipboard("https://sub2unlock.me/6LIOt0P")
     end
-    
-    -- Delay reset using standard spawn to prevent UI freezing
-    task.delay(2, function()
-        ActionButton.Text = "Click me for Script"
-        ActionButton.BackgroundColor3 = Color3.fromRGB(65, 65, 68)
-    end)
 end)
+
+-- 2. Send the system notification to the phone screen
+game:GetService("StarterGui"):SetCore("SendNotification", {
+    Title = "Free gamepasses",
+    Text = "Link copied! Go to your browser and paste for the script.",
+    Duration = 5, -- How long the notification stays on screen (seconds)
+    Button1 = "OK"
+})
